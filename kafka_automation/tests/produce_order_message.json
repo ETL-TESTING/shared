@@ -1,0 +1,28 @@
+{
+    "scenarioName": "PRODUCE ORDER MESSAGE TO KAFKA AND ASSERT SUCCESS",
+    "steps": [
+        {
+            "name": "produce_order_to_kafka",
+            "url": "kafka-topic:order-topic",
+            "method": "produce",
+            "request": {
+                "recordType": "JSON",
+                "records": [
+                    {
+                        "value": {
+                            "orderId": 123,
+                            "item": "iPhone",
+                            "orderDate": "2026-05-25T09.00"
+                        }
+                    }
+                ]
+            },
+            "assertions": {
+                "status": "Ok",
+                "recordMetadata": {
+                     "offset" : "$NOT.NULL"
+                }
+            }
+        }
+    ]
+}

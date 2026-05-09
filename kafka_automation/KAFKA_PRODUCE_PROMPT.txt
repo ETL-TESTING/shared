@@ -1,0 +1,29 @@
+Using the steply framework (https://github.com/QABEES/steply), write a Kafka produce test
+scenario that sends a message to topic "order-topic" on broker localhost:9092 and asserts
+success. Follow the pattern from this reference:
+https://github.com/authorjapps/hello-kafka-stream-testing/blob/master/src/test/java/org/jsmart/zerocode/integration/tests/kafka/produce/KafkaProduceTest.java
+
+Produce this exact JSON message:
+{
+  "orderId": 123,
+  "item": "iPhone",
+  "orderDate": "2027-01-01T07:01:101"
+}
+
+Generate the following file structure — no other files:
+
+kafka_automation/
+  env/
+    kafka_local_server.properties   ← bootstrap server + references to env/kafka_producer.properties and env/kafka_consumer.properties
+    kafka_producer.properties       ← producer-only settings (serializers, acks, retries, etc.)
+    kafka_consumer.properties       ← consumer-only settings (deserializers, group.id, offset reset, etc.)
+  tests/
+    produce_order_message.json      ← steply test scenario
+  .github/workflows/kafka-test.yml  ← CI pipeline; assume Kafka broker already running at localhost:9092 in CI env
+
+Requirements:
+- kafka_local_server.properties must delegate to env/kafka_producer.properties and
+  env/kafka_consumer.properties using relative paths (env/...)
+- GitHub Actions YAML must only install steply and run the test — no Kafka setup steps
+- Include the exact CLI run command to install "steply" from (https://github.com/QABEES/steply) and to execute the tests locally
+
